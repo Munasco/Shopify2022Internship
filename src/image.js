@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useCallback } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import gsap from "gsap";
 import { LoadContext } from "./App";
 import { Circles } from "react-loader-spinner";
@@ -28,8 +28,8 @@ export default function Image(props) {
     formatter_month.format(props.endDate) +
     "-" +
     formatter_date.format(props.endDate);
-  const handleLikePress = useCallback((button) => {
-    console.log("yay", button.classList);
+  const handleLikePress = (event) => {
+    const button = document.querySelector(".button");
     button.classList.toggle("liked");
     if (button.classList.contains("liked")) {
       gsap.fromTo(
@@ -60,7 +60,7 @@ export default function Image(props) {
         }
       );
     }
-  }, []);
+  };
 
   useEffect(() => {
     fetch(
@@ -82,17 +82,6 @@ export default function Image(props) {
       );
   }, [start_date, end_date, loadContext]);
 
-  useEffect(() => {
-    const button = document.querySelector(".button");
-    if (button)
-      window.addEventListener("click", (event) =>
-        handleLikePress(button, event)
-      );
-    return () => {
-      if (button)
-        window.removeEventListener("click", () => handleLikePress(button));
-    };
-  });
   const loaded_Pictures = (
     <div className="flex font-sans flex-wrap">
       {items.map((item) => (
@@ -120,7 +109,7 @@ export default function Image(props) {
               <div>{item.explanation.slice(0, 100)}...</div>
             </div>
             <div className="flex">
-              <button className="button">
+              <button className="button outline-0" onClick={handleLikePress}>
                 <div className="hand">
                   <div className="thumb"></div>
                 </div>
