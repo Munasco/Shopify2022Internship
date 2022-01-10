@@ -91,16 +91,18 @@ export default function Image(props) {
         >
           {item.media_type === "image" ? (
             <img
-              className="storm-images object-cover bg-black flex-1"
+              className="object-cover bg-black flex-1"
               src={item.url}
               alt={item.title}
             />
           ) : (
-            <video
-              className="storm-images object-cover bg-black flex-1"
+            <iframe
+              title={item.title}
+              className="bg-black w-full h-full flex-1"
               src={item.url}
+            >
               alt={item.title}
-            />
+            </iframe>
           )}
           <div className="flex flex-col">
             <div className="p-4">
